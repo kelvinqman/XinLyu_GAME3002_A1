@@ -14,15 +14,25 @@ public class ProjectileComponent : MonoBehaviour
     private Rigidbody m_rb = null;
     private GameObject m_landingDisplay = null;
     private bool m_bIsGrounded = true;
+    private UI m_interface = null;
     private void Start()
     {
+        m_interface = GetComponent<UI>();
         m_rb = GetComponent<Rigidbody>();
         Assert.IsNotNull(m_rb, "We've got a problem! Rigidbody is not attached!");
         CreateLandingDisplay();
+        if(m_interface!=null)
+        {
+            m_interface.OnRequestUpdateUI(m_rb.velocity.x, m_rb.velocity.y, m_rb.velocity.z);
+        }
     }
     private void Update()
     {
         UpdateLandingPosition();
+        if(m_interface!=null)
+        {
+            m_interface.OnRequestUpdateUI(m_rb.velocity.x,m_rb.velocity.y,m_rb.velocity.z);
+        }
     }
     private void CreateLandingDisplay()
     {
